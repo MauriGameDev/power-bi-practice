@@ -1,0 +1,14 @@
+//Calculate User stories that are completed
+User Story Points(completed) = 
+CALCULATE(
+    SUM(factWorkItems[StoryPoints]),
+    factWorkItems[StateCategory] = "Completed",
+    factWorkItems[WorkItemType] = "User Story"
+)
+
+//Throughput measurement
+Throughtput = 
+CALCULATE(
+    COUNTROWS(factWorkItems),
+    factWorkItems[StateCategory] = "Completed"
+)
