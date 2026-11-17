@@ -12,3 +12,36 @@ CALCULATE(
     COUNTROWS(factWorkItems),
     factWorkItems[StateCategory] = "Completed"
 )
+
+//Cycle Time by days (averages)
+Avg Cycle Time (Days) = AVERAGE(factWorkItems[CycleTimeDays])
+
+//Lead times by days
+Avg Lead Time (days) = AVERAGE(factWorkItems[LeadTimeDays])
+
+//percent of how many workItems closed within 85% lead time
+Cycle Time 85th Pct (days) = PERCENTILE.INC(factWorkItems[CycleTimeDays], 0.85)
+
+//Burnup completed 
+Burnup Completed Points = 
+CALCULATE(
+    SUM(factSnapshot[StoryPoints]),
+    factSnapshot[WorkItemType] = "User Story",
+    factSnapshot[StateCategory] = "Completed"
+)
+
+//Burnup Total
+Burnup Total Scope = 
+CALCULATE(
+    SUM(factSnapshot[StoryPoints]),
+    factSnapshot[WorkItemType] = "User Story",
+    factSnapshot[StateCategory] <> "Removed"
+)
+
+//Follow sprint dates
+In Sprint Window = 
+VAR SprintStart = MIN(dimIterations[StartDate])
+VAR SprintEnd = MAX(dimIterations[EndDate])
+VAR ThisDay = MAX(dimDAte[DATE])
+RETURN
+    IF(ThisDay >= SprintStart && ThisDay <= SprintEnd, 1, 0)

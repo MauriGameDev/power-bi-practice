@@ -1,6 +1,7 @@
 //Odata Feed
 //https://analytics.dev.azure.com/{org}/{project}/_odata/v4.0-preview/
 
+//strip timezone for iterations table
 let
    Source = OData.Feed("https://analytics.dev.azure.com/CosmicFireStudios/CFS_Studio/_odata/v4.0-preview/", null, [Implementation="2.0"]),
    Iterations_table = Source{[Name="Iterations", Signature="table"]}[Data],
@@ -15,3 +16,5 @@ let
    )
 in
    FixDates
+
+
